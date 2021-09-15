@@ -1,8 +1,8 @@
 import React from 'react'
-import { IStateLR as IPropsLR } from '../App'
+import { IResultados } from '../interfaces/IResultados'
 
 // Crea y/o actualiza la lista de resultados de busqueda
-const ListaResultados: React.FC<IPropsLR> = ({ drinks }) => {
+const ListaResultados: React.FC<IResultados> = ({ drinks }) => {
 
     // Lista que crea el elemenento
     const renderList = (): JSX.Element[] => {
