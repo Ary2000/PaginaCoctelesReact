@@ -1,5 +1,6 @@
 import React from 'react'
 import { IResultados } from '../interfaces/IResultados'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 
 // Crea y/o actualiza la lista de resultados de busqueda
 const ListaResultados: React.FC<IResultados> = ({ drinks }) => {
@@ -10,7 +11,7 @@ const ListaResultados: React.FC<IResultados> = ({ drinks }) => {
             return (
                 <li>
                     <div>
-                        <h2>{drink.strDrink}</h2>
+                        <Link to={"/resultados/" + drink.strDrink}>{drink.strDrink}</Link>
                         <h3>{drink.idDrink}</h3>
                     </div>
                 </li>
