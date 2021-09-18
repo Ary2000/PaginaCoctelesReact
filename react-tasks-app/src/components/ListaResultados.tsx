@@ -11,7 +11,7 @@ const ListaResultados: React.FC<IResultados> = ({ drinks }) => {
             return (
                 <li>
                     <div>
-                        <Link to={"/resultados/" + drink.strDrink}>{drink.strDrink}</Link>
+                        <Link to={"/resultados/" + drink.idDrink}>{drink.strDrink}</Link>
                         <h3>{drink.idDrink}</h3>
                     </div>
                 </li>
