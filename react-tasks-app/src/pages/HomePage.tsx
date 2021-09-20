@@ -31,7 +31,9 @@ export const HomePage: React.FunctionComponent<IPage> = props => {
   //    .then(datos => {
   //      setResultados(datos.drinks);
   //    });
-    realizarConsultaCoctel( nombreCoctail, URLdeseado, setResultados);
+    realizarConsultaCoctel( nombreCoctail, URLdeseado).then(datos => {
+      setResultados(datos.drinks);
+    });
   }
 
   const botonesAbecedario = () => {

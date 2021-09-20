@@ -2,16 +2,22 @@ import React, {useEffect, useState} from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import logging from '../config/logging';
 import IPage from '../interfaces/page';
+import { IResultados } from '../interfaces/IResultados';
+import { realizarConsultaCoctel } from '../HandlerConsultas';
 
 const ResultadoCoctel: React.FunctionComponent<IPage & RouteComponentProps<any>> = props => {
-    const [message, setMessage] = useState<string>(props.name);
+    const [message, setMessage] = useState<IResultados['drinks']>([{idDrink: -1, strDrink:'Nada'}]);
     
     useEffect(() => {
-        logging.info(`Loading ${props.name}`);
-    }, [props.name])
+        realizarConsultaCoctel(props.match.params.idCoctel, 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=').then(datos => {
+            setMessage(datos.drinks);
+        });
+    }, [])
 
     return (
-        <div><body>{props.match.params.nombre}</body></div>
+        <div>
+            <h1>{ message[0].strDrink }</h1>
+        </div>
     );
 }
 

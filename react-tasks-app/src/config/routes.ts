@@ -10,7 +10,7 @@ const routes: IRoute[] = [
        exact: true 
     },
     {
-        path: '/resultados/:nombre',
+        path: '/resultados/:idCoctel',
         name: 'Pagina resultados',
         component: ResultadoCoctel,
         exact: true
