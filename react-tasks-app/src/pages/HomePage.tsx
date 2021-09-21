@@ -7,20 +7,31 @@ import '../realizarConsulta';
 import { consultarApi } from '../realizarConsulta';
 import ListaResultados from '../components/ListaResultados';
 import { IResultados } from '../interfaces/IResultados';
+import { ICingredinetes } from '../interfaces/InterfacesConsultas';
 
-import { realizarConsultaCoctel } from '../HandlerConsultas';
+import { realizarConsultaCoctel, realizarConsultaIngredientes } from '../HandlerConsultas';
+
+import ComboBox from '../components/ComboBox';
 
 
 export const HomePage: React.FunctionComponent<IPage> = props => {
 
+  const [ingredientes, setIngredientes] = useState<ICingredinetes['drinks']>([]);
+
   useEffect(() => {
-    logging.info(`Loading ${props.name}`)
-  }, [props.name])
+    realizarConsultaIngredientes().then(datos => {
+      setIngredientes(datos.drinks);
+    });
+  }, [])
 
   //const handlerConsultas = new HandlerConsultas();
 
   const [resultados, setResultados] = useState<IResultados['drinks']>([]);
-  //const consultate = ;
+  
+  // Consultas
+  useEffect(() => {
+
+  }, [])
 
   // Realiza la consulta a la api
   // Async para que await funcione
@@ -71,6 +82,11 @@ export const HomePage: React.FunctionComponent<IPage> = props => {
   return (
     <div className="App">
       <h1>Busqueda Cocteles</h1>
+      <ComboBox drinks={ingredientes} />
+      <button onClick={() =>{
+        var seleccion = (document.getElementById('ingredientes')) as HTMLSelectElement;
+        conseguirResultados(seleccion.value, 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=');
+      }}>Busqueda por ingrediente</button>
       <input type='text' id='searchBar'></input>
       <button onClick = {() => conseguirResultados((document.getElementById('searchBar') as HTMLInputElement).value, 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')}>Buscar</button>
       { botonesAbecedario() }
