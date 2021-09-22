@@ -7,31 +7,40 @@ import '../realizarConsulta';
 import { consultarApi } from '../realizarConsulta';
 import ListaResultados from '../components/ListaResultados';
 import { IResultados } from '../interfaces/IResultados';
-import { ICingredinetes } from '../interfaces/InterfacesConsultas';
+import { ICategorias, ICingredinetes, IGlass, IAlchoholic } from '../interfaces/InterfacesConsultas';
 
-import { realizarConsultaCoctel, realizarConsultaIngredientes } from '../HandlerConsultas';
+import { realizarConsultaCategorias, realizarConsultaCoctel, 
+         realizarConsultaIngredientes, realizarConsultaGlass, 
+         realizarConsultaAlchoholic, realizarConsultaRandom } from '../HandlerConsultas';
 
 import ComboBox from '../components/ComboBox';
 
 
 export const HomePage: React.FunctionComponent<IPage> = props => {
 
-  const [ingredientes, setIngredientes] = useState<ICingredinetes['drinks']>([]);
+  const [ingredientes, setIngredientes] = useState<ICingredinetes['drinks']>([{strIngredient1: "nada"}]);
+  const [categorias, setCategorias] = useState<ICategorias['drinks']>([{strCategory: "nada"}]);
+  const [glass, setGlass] = useState<IGlass['drinks']>([{strGlass: "nada"}]);
+  const [alcoholic, setAlcoholic] = useState<IAlchoholic['drinks']>([{strAlcoholic: "nada"}]);
 
   useEffect(() => {
     realizarConsultaIngredientes().then(datos => {
       setIngredientes(datos.drinks);
     });
+    realizarConsultaCategorias().then(datos =>{
+      setCategorias(datos.drinks);
+    })
+    realizarConsultaGlass().then(datos =>{
+      setGlass(datos.drinks);
+    })
+    realizarConsultaAlchoholic().then(datos =>{
+      setAlcoholic(datos.drinks);
+    })
   }, [])
 
   //const handlerConsultas = new HandlerConsultas();
 
   const [resultados, setResultados] = useState<IResultados['drinks']>([]);
-  
-  // Consultas
-  useEffect(() => {
-
-  }, [])
 
   // Realiza la consulta a la api
   // Async para que await funcione
@@ -45,6 +54,12 @@ export const HomePage: React.FunctionComponent<IPage> = props => {
     realizarConsultaCoctel( nombreCoctail, URLdeseado).then(datos => {
       setResultados(datos.drinks);
     });
+  }
+
+  const conseguirRandom = ():void => {
+    realizarConsultaRandom().then(datos => {
+      setResultados(datos.drinks)
+    })
   }
 
   const botonesAbecedario = () => {
@@ -82,13 +97,33 @@ export const HomePage: React.FunctionComponent<IPage> = props => {
   return (
     <div className="App">
       <h1>Busqueda Cocteles</h1>
-      <ComboBox drinks={ingredientes} />
+      <ComboBox elementos={ingredientes} nombreBoton={"ingredientes"} idBoton={"ingredientes"}/>
       <button onClick={() =>{
         var seleccion = (document.getElementById('ingredientes')) as HTMLSelectElement;
         conseguirResultados(seleccion.value, 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=');
       }}>Busqueda por ingrediente</button>
+
+      <ComboBox elementos={categorias} nombreBoton={"categories"} idBoton={"categories"}/>
+      <button onClick={() =>{
+        var seleccion = (document.getElementById('categories')) as HTMLSelectElement;
+        conseguirResultados(seleccion.value, 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=');
+      }}>Busqueda por categoria</button>
+
+      <ComboBox elementos={glass} nombreBoton={"glass"} idBoton={"glass"}/>
+      <button onClick={() =>{
+        var seleccion = (document.getElementById('glass')) as HTMLSelectElement;
+        conseguirResultados(seleccion.value, 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=');
+      }}>Busqueda por vaso</button>
+
+      <ComboBox elementos={alcoholic} nombreBoton={"alchoholic"} idBoton={"alchoholic"}/>
+      <button onClick={() =>{
+        var seleccion = (document.getElementById('alchoholic')) as HTMLSelectElement;
+        conseguirResultados(seleccion.value, 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=');
+      }}>Busqueda por alchohol</button>
+
       <input type='text' id='searchBar'></input>
       <button onClick = {() => conseguirResultados((document.getElementById('searchBar') as HTMLInputElement).value, 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')}>Buscar</button>
+      <button onClick = {() => conseguirRandom()}>Random</button>
       { botonesAbecedario() }
       <ListaResultados drinks={resultados}/>
     </div>
