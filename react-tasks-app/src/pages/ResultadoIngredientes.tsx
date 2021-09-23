@@ -20,7 +20,10 @@ const ResultadoIngredietes: React.FunctionComponent<IPage & RouteComponentProps<
     }, [])
 
     return(
-        <h1>{ ingrediente[0].strIngredient }</h1>
+        <div>
+            <h1>{ ingrediente[0].strIngredient }</h1>
+            <h2>{ ingrediente[0].strDescription }</h2>
+        </div>
     )
 }
 
