@@ -2,6 +2,13 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import logging from './config/logging';
 import routes from './config/routes';
+//-----------------------------------
+import LoginButton from './componentsLogin/LoginButton';
+import LogoutButton from './componentsLogin/LogoutButton';
+import Profile from './componentsLogin/Profile';
+import { useAuth0 } from '@auth0/auth0-react';
+import NavBarAbecedario from './componentsUI/navBar';
+import PerfilUsuario from './componentsUI/perfil';
 
 const Application: React.FunctionComponent<{}> = props => {
     
